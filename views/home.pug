@@ -1,0 +1,18 @@
+extends partial/layout.pug
+
+block body
+  -
+    const methods = [
+      'script',
+      'script+hack',
+      'script[async]',
+      'script[async]+hack',
+      'script[defer]',
+      'script[defer]+hack',
+    ]
+
+  ul
+    each method in methods
+      li
+        a(href=`/demo?method=${method}`) #{method}
+

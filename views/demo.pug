@@ -1,0 +1,28 @@
+extends partial/layout.pug
+
+block body
+  -
+    const methods = [
+      'script',
+      'script+hack',
+      'script[async]',
+      'script[async]+hack',
+      'script[defer]',
+      'script[defer]+hack',
+    ]
+    const method = query.method || methods[Math.floor(Math.random() * methods.length)]
+    const networkDelay = 2000
+
+  if (method.endsWith('+hack'))
+    div(style="height:0") #{'\u200b'.repeat(201)}
+
+  pre #{String(method)}
+  pre#firstAFLog ...
+  script.
+    requestAnimationFrame(function() {
+      const firstAF = Date.now() - performance.timing.navigationStart
+      firstAFLog.textContent = JSON.stringify({firstAF})
+      firstAFLog.style.color = firstAF >= #{networkDelay} ? 'red' : 'green'
+    })
+  script(src=`/empty.js?networkDelay=${networkDelay}`, async=method.includes('[async]'), defer=method.includes('[defer]'))
+
