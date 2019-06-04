@@ -14,5 +14,5 @@ block body
   ul
     each method in methods
       li
-        a(href=`/demo?method=${method}`) #{method}
+        a(href=`/demo?method=${encodeURIComponent(method)}`) #{method}
 
