@@ -24,5 +24,21 @@ block body
       firstAFLog.textContent = JSON.stringify({firstAF})
       firstAFLog.style.color = firstAF >= #{networkDelay} ? 'red' : 'green'
     })
-  script(src=`/empty.js?networkDelay=${networkDelay}`, async=method.includes('[async]'), defer=method.includes('[defer]'))
+  if (method === 'raf')
+    script.
+      {
+        const loadScript = () => {
+          const script = document.createElement('script')
+          script.src = '/empty.js?networkDelay=#{networkDelay}'
+          document.body.appendChild(script)
+        }
+        const isVisible = (document.visibilityState || document.webkitVisibilityState) === 'visible'
+        if (isVisible) {
+          requestAnimationFrame(loadScript)
+        } else {
+          loadScript()
+        }
+      }
+  else
+    script(src=`/empty.js?networkDelay=${networkDelay}`, async=method.includes('[async]'), defer=method.includes('[defer]'))
 

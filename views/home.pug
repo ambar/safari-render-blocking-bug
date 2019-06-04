@@ -11,8 +11,13 @@ block body
       'script[defer]+hack',
     ]
 
+  h2 Static script tag
   ul
     each method in methods
       li
         a(href=`/demo?method=${encodeURIComponent(method)}`) #{method}
 
+  h2 Add script tag dynamically
+  ul
+    li
+      a(href=`/demo?method=raf`) raf
